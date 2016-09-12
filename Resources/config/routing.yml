@@ -1,0 +1,3 @@
+miguel_bacalhau_homepage:
+    path:     /
+    defaults: { _controller: miguelBacalhauBundle:Default:index }

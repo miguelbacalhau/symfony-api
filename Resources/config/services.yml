@@ -1,0 +1,4 @@
+services:
+#    miguel_bacalhau.example:
+#        class: miguel\BacalhauBundle\Example
+#        arguments: ["@service_id", "plain_value", %parameter%]
