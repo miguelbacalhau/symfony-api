@@ -5,6 +5,7 @@ namespace miguel\BacalhauBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use miguel\BacalhauBundle\Api\Exception as ApiException;
 
 /**
  * Api Controller class
@@ -28,9 +29,13 @@ class ApiController extends Controller
             $request->getContent()
         );
 
-        return new JsonResponse(
-            $this->get("miguel_bacalhau.$service")->$method($parameters)
-        );
+        try {
+            $return = $this->get("miguel_bacalhau.$service")->$method($parameters);
+        } catch (ApiException $e) {
+            $return = $e->toJson();
+        }
+
+        return new JsonResponse($return);
     }
 
     /**
