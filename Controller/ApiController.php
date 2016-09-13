@@ -30,12 +30,18 @@ class ApiController extends Controller
         );
 
         try {
-            $return = $this->get("miguel_bacalhau.$service")->$method($parameters);
+            $apiServiceResponse = $this->get("miguel_bacalhau.$service")->$method($parameters);
+            $data = $apiServiceResponse->getData();
+            $status = $apiServiceResponse->getStatus();
+            $headers = $apiServiceResponse->getHeaders();
         } catch (ApiException $e) {
-            $return = $e->toJson();
+            $data = $e->toJson();
+            $status = JsonResponse::HTTP_BAD_REQUEST;
+            // @TODO the very gud headers
+            $headers = [];
         }
 
-        return new JsonResponse($return);
+        return new JsonResponse($data, $status, $headers);
     }
 
     /**

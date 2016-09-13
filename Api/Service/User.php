@@ -5,6 +5,7 @@ namespace miguel\BacalhauBundle\Api\Service;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use miguel\BacalhauBundle\Api\Service;
+use miguel\BacalhauBundle\Api\ServiceResponse;
 use miguel\BacalhauBundle\Api\Exception\InvalidEntityPropertyException;
 use miguel\BacalhauBundle\Api\Entity\User as ApiUser;
 use miguel\BacalhauBundle\Entity\User as UserEntity;
@@ -21,7 +22,7 @@ class User extends Service
      *
      * @throws miguel\BacalhauBundle\Api\Exception\InvalidEntityPropertyException;
      *
-     * @return Symfony\Component\HttpFoundation\JsonResponse
+     * @return miguel\BacalhauBundle\Api\ServiceResponse
      */
     public function create(ApiUser $apiUser)
     {
@@ -34,7 +35,8 @@ class User extends Service
             throw new InvalidEntityPropertyException();
         }
 
-        return 'created';
+        // @TODO better data and gud headers
+        return new ServiceResponse('ola mis amigos', JsonResponse::HTTP_CREATED);
     }
 
     /**
