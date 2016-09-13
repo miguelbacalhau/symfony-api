@@ -1,4 +1,9 @@
 services:
-#    miguel_bacalhau.example:
-#        class: miguel\BacalhauBundle\Example
-#        arguments: ["@service_id", "plain_value", %parameter%]
+    miguel_bacalhau.service:
+        class: miguel\BacalhauBundle\Api\Service
+        arguments:
+          entityManager: "@doctrine.orm.entity_manager"
+
+    miguel_bacalhau.user:
+        class: miguel\BacalhauBundle\Api\Service\User
+        parent: miguel_bacalhau.service
