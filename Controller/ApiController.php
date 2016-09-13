@@ -6,23 +6,73 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
+/**
+ * Api Controller class
+ *
+ * @author miguel
+ */
 class ApiController extends Controller
 {
+    /**
+     * Api base Controller method
+     *
+     * @param string $service
+     * @param string $method
+     * @param Symfony\Component\HttpFoundation\Request $reques
+     *
+     * @return Symfony\Component\HttpFoundation\JsonResponse
+     */
     public function apiAction($service, $method, Request $request)
     {
-        $content = json_decode($request->getContent(), true);
-        var_dump($content);
-        return new JsonResponse($content);
-
-        $className = 'miguel\BacalhauBundle\\' . $content['classType'];
-        $entity = new $className();
-
-        foreach ($content['property'] as $name => $value) {
-            $entity->$name = $value;
-        }
+        $parameters = $this->buildParameters(
+            $request->getContent()
+        );
 
         return new JsonResponse(
-            $this->get("miguel_bacalhau.$service")->$method($entity)
+            $this->get("miguel_bacalhau.$service")->$method($parameters)
         );
+    }
+
+    /**
+     * Builds the parameters from json data for the Api Services
+     *
+     * @param string $jsonData
+     *
+     * @return mixed
+     */
+    private function buildParameters($jsonData)
+    {
+        $contents = json_decode($jsonData);
+
+        if (is_array($contents)) {
+            $parameters = [];
+            foreach ($contents as $content) {
+                $parameters[] = $this->buildObject($content);
+            }
+        } else {
+            $parameters = $this->buildObject($contents);
+        }
+
+        return $parameters;
+    }
+
+    /**
+     * Builds and Api object based on the data
+     *
+     * @param stdClass $data
+     *
+     * @return mixed
+     */
+    private function buildObject($data)
+    {
+        // @TODO: validate data, throw exceptions
+        $className = 'miguel\BacalhauBundle\\' . $data->classType;
+        $object = new $className();
+
+        foreach ($data->properties as $name => $value) {
+            $object->$name = $value;
+        }
+
+        return $object;
     }
 }
