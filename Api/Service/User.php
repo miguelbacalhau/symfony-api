@@ -8,6 +8,9 @@ use miguel\BacalhauBundle\Api\Entity\User as ApiUser;
 use miguel\BacalhauBundle\Entity\User as UserEntity;
 
 /**
+ * User Api Service class
+ *
+ * @author miguel
  */
 class User extends Service
 {

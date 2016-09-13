@@ -3,6 +3,9 @@
 namespace miguel\BacalhauBundle\Api\Entity;
 
 /**
+ * User Api Entity class
+ *
+ * @author miguel
  */
 class User
 {

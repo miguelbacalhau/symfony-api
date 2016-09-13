@@ -4,6 +4,11 @@ namespace miguel\BacalhauBundle\Api;
 
 use Doctrine\ORM\EntityManager;
 
+/**
+ * Base Api Service Class
+ *
+ * @author miguel
+ */
 class Service
 {
     /**
