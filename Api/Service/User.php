@@ -21,9 +21,9 @@ class User extends Service
     /**
      * Creates a new User
      *
-     * @throws miguel\BacalhauBundle\Api\Exception\InvalidEntityPropertyException;
-     *
      * @param miguel\BacalhauBundle\Api\Entity\User $user
+     *
+     * @throws miguel\BacalhauBundle\Api\Exception\InvalidEntityPropertyException;
      *
      * @return miguel\BacalhauBundle\Api\ServiceResponse
      */
@@ -44,6 +44,8 @@ class User extends Service
 
     /**
      * @param miguel\BacalhauBundle\Api\Entity\User $user
+     *
+     * @throws miguel\BacalhauBundle\Api\Exception\NotFoundException;
      *
      * @return miguel\BacalhauBundle\Api\ServiceResponse
      */
