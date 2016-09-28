@@ -25,6 +25,7 @@ class ApiController extends Controller
      */
     public function apiAction($service, $method, Request $request)
     {
+
         $parameters = $this->buildParameters(
             $request->getContent()
         );
@@ -53,6 +54,10 @@ class ApiController extends Controller
      */
     private function buildParameters($jsonData)
     {
+        if (empty($jsonData)) {
+            return null;
+        }
+
         $contents = json_decode($jsonData);
 
         if (is_array($contents)) {
