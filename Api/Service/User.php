@@ -7,6 +7,7 @@ use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use miguel\BacalhauBundle\Api\Service;
 use miguel\BacalhauBundle\Api\ServiceResponse;
 use miguel\BacalhauBundle\Api\Exception\InvalidEntityPropertyException;
+use miguel\BacalhauBundle\Api\Exception\NotFoundException;
 use miguel\BacalhauBundle\Api\Entity\User as ApiUser;
 use miguel\BacalhauBundle\Entity\User as UserEntity;
 
@@ -62,12 +63,10 @@ class User extends Service
         }
 
         if (empty($userArray)) {
-            $statusCode = JsonResponse::HTTP_NOT_FOUND;
-        } else {
-            $statusCode = JsonResponse::HTTP_OK;
+            throw new NotFoundException('user not found');
         }
 
-        return new ServiceResponse($userArray, $statusCode);
+        return new ServiceResponse($userArray, JsonResponse::HTTP_OK);
     }
 
     /**

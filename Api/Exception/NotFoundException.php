@@ -10,11 +10,11 @@ use miguel\BacalhauBundle\Api\Exception;
  *
  * @author miguel
  */
-class InvalidEntityPropertyException extends Exception
+class NotFoundException extends Exception
 {
     //@TODO make better good stuff
-    public function __construct()
+    public function __construct($message)
     {
-        parent::__construct('Invalid Fields', JsonResponse::HTTP_BAD_REQUEST);
+        parent::__construct($message, JsonResponse::HTTP_NOT_FOUND);
     }
 }

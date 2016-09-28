@@ -36,7 +36,7 @@ class ApiController extends Controller
             $headers = $apiServiceResponse->getHeaders();
         } catch (ApiException $e) {
             $data = $e->toJson();
-            $status = JsonResponse::HTTP_BAD_REQUEST;
+            $status = $e->getStatusCode();
             // @TODO the very gud headers
             $headers = [];
         }
