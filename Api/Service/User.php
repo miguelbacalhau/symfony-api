@@ -27,8 +27,9 @@ class User extends Service
      *
      * @return miguel\BacalhauBundle\Api\ServiceResponse
      */
-    public function create(ApiUser $apiUser)
+    public function put($param, ApiUser $apiUser)
     {
+        //@TODO: take care of null user
         $user = $this->buildUserEntity($apiUser);
 
         $this->getEntityManager()->persist($user);
@@ -49,12 +50,12 @@ class User extends Service
      *
      * @return miguel\BacalhauBundle\Api\ServiceResponse
      */
-    public function get(ApiUser $apiUser = null)
+    public function get($userId)
     {
         $repository = $this->getEntityManager()->getRepository('miguelBacalhauBundle:User');
 
-        if ($apiUser) {
-            $users = $repository->findById($apiUser->id);
+        if ($userId) {
+            $users = $repository->findById($userId);
         } else {
             $users = $repository->findAll();
         }

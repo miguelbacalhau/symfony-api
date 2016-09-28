@@ -1,3 +1,3 @@
 miguel_bacalhau_api:
-    path:     /api/{service}/{method}
-    defaults: { _controller: miguelBacalhauBundle:Api:api, service, method }
+    path:     /api/{service}/{param}
+    defaults: { _controller: miguelBacalhauBundle:Api:api, param: null }

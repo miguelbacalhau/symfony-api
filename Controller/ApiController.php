@@ -23,15 +23,17 @@ class ApiController extends Controller
      *
      * @return Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function apiAction($service, $method, Request $request)
+    public function apiAction($service, $param, Request $request)
     {
 
-        $parameters = $this->buildParameters(
+        $data = $this->buildData(
             $request->getContent()
         );
+        $method = strtolower($request->getMethod());
 
         try {
-            $apiServiceResponse = $this->get("miguel_bacalhau.$service")->$method($parameters);
+            // @TODO verify method exist before calling
+            $apiServiceResponse = $this->get("miguel_bacalhau.$service")->$method($param, $data);
             $data = $apiServiceResponse->getData();
             $status = $apiServiceResponse->getStatus();
             $headers = $apiServiceResponse->getHeaders();
@@ -52,7 +54,7 @@ class ApiController extends Controller
      *
      * @return mixed
      */
-    private function buildParameters($jsonData)
+    private function buildData($jsonData)
     {
         if (empty($jsonData)) {
             return null;
@@ -61,15 +63,15 @@ class ApiController extends Controller
         $contents = json_decode($jsonData);
 
         if (is_array($contents)) {
-            $parameters = [];
+            $data = [];
             foreach ($contents as $content) {
-                $parameters[] = $this->buildObject($content);
+                $data[] = $this->buildObject($content);
             }
         } else {
-            $parameters = $this->buildObject($contents);
+            $data = $this->buildObject($contents);
         }
 
-        return $parameters;
+        return $data;
     }
 
     /**
