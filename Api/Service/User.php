@@ -22,6 +22,8 @@ class User extends Service
      *
      * @throws miguel\BacalhauBundle\Api\Exception\InvalidEntityPropertyException;
      *
+     * @param miguel\BacalhauBundle\Api\Entity\User $user
+     *
      * @return miguel\BacalhauBundle\Api\ServiceResponse
      */
     public function create(ApiUser $apiUser)
@@ -37,6 +39,35 @@ class User extends Service
 
         // @TODO better data and gud headers
         return new ServiceResponse('ola mis amigos', JsonResponse::HTTP_CREATED);
+    }
+
+    /**
+     * @param miguel\BacalhauBundle\Api\Entity\User $user
+     *
+     * @return miguel\BacalhauBundle\Api\ServiceResponse
+     */
+    public function get(ApiUser $apiUser = null)
+    {
+        $repository = $this->getEntityManager()->getRepository('miguelBacalhauBundle:User');
+
+        if ($apiUser) {
+            $users = $repository->findById($apiUser->id);
+        } else {
+            $users = $repository->findAll();
+        }
+
+        $userArray = [];
+        foreach ($users as $user) {
+            $userArray[] = $user->toArray();
+        }
+
+        if (empty($userArray)) {
+            $statusCode = JsonResponse::HTTP_NOT_FOUND;
+        } else {
+            $statusCode = JsonResponse::HTTP_OK;
+        }
+
+        return new ServiceResponse($userArray, $statusCode);
     }
 
     /**

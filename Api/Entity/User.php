@@ -10,6 +10,10 @@ namespace miguel\BacalhauBundle\Api\Entity;
 class User
 {
     /**
+     * @var $id
+     */
+    public $id;
+    /**
      * @var string
      */
     public $name;
