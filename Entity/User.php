@@ -3,7 +3,9 @@
 namespace miguel\BacalhauBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+use miguel\BacalhauBundle\Entity\Suggestion;
 
 /**
  * User
@@ -37,6 +39,30 @@ class User
      */
     private $email;
 
+    /**
+     * @var Doctrine\Common\Collections\ArrayCollection;
+     *
+     * @ORM\OneToMany(targetEntity="Suggestion", mappedBy="author")
+     */
+    private $suggestions;
+
+    /**
+     * @var Doctrine\Common\Collections\ArrayCollection;
+     *
+     * @ORM\ManyToMany(targetEntity="Suggestion", inversedBy="voters")
+     * @ORM\JoinTable(name="users_votes")
+     */
+    private $voted;
+
+    /**
+     * Class construtor
+     */
+    public function __construct()
+    {
+        $this->suggestions = new ArrayCollection();
+        $this->voted = new ArrayCollection();
+    }
+
     public function toArray()
     {
         return [
@@ -45,6 +71,7 @@ class User
             'email' => $this->email
         ];
     }
+
     /**
      * Get id
      *
@@ -101,5 +128,73 @@ class User
     public function getEmail()
     {
         return $this->email;
+    }
+
+    /**
+     * Add suggestion
+     *
+     * @param \miguel\BacalhauBundle\Entity\Suggestion $suggestion
+     *
+     * @return User
+     */
+    public function addSuggestion(\miguel\BacalhauBundle\Entity\Suggestion $suggestion)
+    {
+        $this->suggestions[] = $suggestion;
+
+        return $this;
+    }
+
+    /**
+     * Remove suggestion
+     *
+     * @param \miguel\BacalhauBundle\Entity\Suggestion $suggestion
+     */
+    public function removeSuggestion(\miguel\BacalhauBundle\Entity\Suggestion $suggestion)
+    {
+        $this->suggestions->removeElement($suggestion);
+    }
+
+    /**
+     * Get suggestions
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSuggestions()
+    {
+        return $this->suggestions;
+    }
+
+    /**
+     * Add voted
+     *
+     * @param \miguel\BacalhauBundle\Entity\Suggestion $voted
+     *
+     * @return User
+     */
+    public function addVoted(Suggestion $suggestion)
+    {
+        $this->voted[] = $suggestion;
+
+        return $this;
+    }
+
+    /**
+     * Remove voted
+     *
+     * @param \miguel\BacalhauBundle\Entity\Suggestion $voted
+     */
+    public function removeVoted(uggestion $suggestion)
+    {
+        $this->voted->removeElement($suggestion);
+    }
+
+    /**
+     * Get voted
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getVoted()
+    {
+        return $this->voted;
     }
 }
