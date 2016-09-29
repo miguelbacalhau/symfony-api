@@ -57,6 +57,36 @@ class Service
     {
         throw new NotImplementedException('delete');
     }
+    /**
+     * HEAD method
+     *
+     * @param mixed $param
+     * @param array $data
+     */
+    public function head($param, array $data)
+    {
+        throw new NotImplementedException('head');
+    }
+    /**
+     * CONNECT method
+     *
+     * @param mixed $param
+     * @param array $data
+     */
+    public function connect($param, array $data)
+    {
+        throw new NotImplementedException('connect');
+    }
+    /**
+     * TRACE method
+     *
+     * @param mixed $param
+     * @param array $data
+     */
+    public function trace($param, array $data)
+    {
+        throw new NotImplementedException('trace');
+    }
 
     /**
      * @param Doctrine\ORM\EntityManager $entityManager
