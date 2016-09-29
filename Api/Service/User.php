@@ -21,16 +21,18 @@ class User extends Service
     /**
      * Creates a new User
      *
-     * @param miguel\BacalhauBundle\Api\Entity\User $user
+     * @param mixed $param
+     * @param array $data array with the users data
      *
      * @throws miguel\BacalhauBundle\Api\Exception\InvalidEntityPropertyException;
      *
      * @return miguel\BacalhauBundle\Api\ServiceResponse
      */
-    public function put($param, ApiUser $apiUser)
+    public function put($param, array $data)
     {
-        //@TODO: take care of null user
-        $user = $this->buildUserEntity($apiUser);
+        //@TODO take care of null data
+        //@TODO iterate data array
+        $user = $this->buildUserEntity($data[0]);
 
         $this->getEntityManager()->persist($user);
         try {
@@ -39,23 +41,26 @@ class User extends Service
             throw new InvalidEntityPropertyException();
         }
 
-        // @TODO better data and gud headers
-        return new ServiceResponse('ola mis amigos', JsonResponse::HTTP_CREATED);
+        // @TODO gud headers
+        return new ServiceResponse($user->toArray(), JsonResponse::HTTP_CREATED);
     }
 
     /**
-     * @param miguel\BacalhauBundle\Api\Entity\User $user
+     * Get all users or one user with id
+     *
+     * @param mixed $param user id
+     * @param array $data
      *
      * @throws miguel\BacalhauBundle\Api\Exception\NotFoundException;
      *
      * @return miguel\BacalhauBundle\Api\ServiceResponse
      */
-    public function get($userId)
+    public function get($param, array $data)
     {
         $repository = $this->getEntityManager()->getRepository('miguelBacalhauBundle:User');
 
-        if ($userId) {
-            $users = $repository->findById($userId);
+        if ($param) {
+            $users = $repository->findById($param);
         } else {
             $users = $repository->findAll();
         }

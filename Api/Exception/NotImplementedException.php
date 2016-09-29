@@ -6,15 +6,15 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use miguel\BacalhauBundle\Api\Exception;
 
 /**
- * Not Found Api Exception class
+ * Not Implemented Api Exception class
  *
  * @author miguel
  */
-class NotFoundException extends Exception
+class NotImplementedException extends Exception
 {
     //@TODO make better good stuff
     public function __construct($message)
     {
-        parent::__construct($message, JsonResponse::HTTP_NOT_FOUND);
+        parent::__construct($message, JsonResponse::HTTP_NOT_IMPLEMENTED);
     }
 }

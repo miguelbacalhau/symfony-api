@@ -62,13 +62,13 @@ class ApiController extends Controller
 
         $contents = json_decode($jsonData);
 
+        $data = [];
         if (is_array($contents)) {
-            $data = [];
             foreach ($contents as $content) {
                 $data[] = $this->buildObject($content);
             }
         } else {
-            $data = $this->buildObject($contents);
+            $data[] = $this->buildObject($contents);
         }
 
         return $data;
