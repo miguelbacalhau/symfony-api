@@ -10,12 +10,67 @@ use miguel\BacalhauBundle\Api\Exception\NotImplementedException;
  *
  * @author miguel
  */
-class Service
+abstract class Service
 {
     /**
      * @var Doctrine\ORM\EntityManager
      */
     private $entityManager;
+
+    /**
+     * Lists one resource based on param
+     *
+     * @param mixed $param
+     *
+     * @throws miguel\BacalhauBundle\Api\Exception\NotImplementedException
+     */
+    public function listOne($param)
+    {
+        throw new NotImplementedException();
+    }
+    /**
+     * Lists all resources
+     *
+     * @throws miguel\BacalhauBundle\Api\Exception\NotImplementedException
+     */
+    public function listAll()
+    {
+        throw new NotImplementedException();
+    }
+    /**
+     * Create a new resource
+     *
+     * @param array $data
+     *
+     * @throws miguel\BacalhauBundle\Api\Exception\NotImplementedException
+     */
+    public function create(array $data)
+    {
+        throw new NotImplementedException();
+    }
+    /**
+     * Updated a resource based on a param
+     *
+     * @param mixed $param
+     * @param array $data
+     *
+     * @throws miguel\BacalhauBundle\Api\Exception\NotImplementedException
+     */
+    public function update($param, array $data)
+    {
+        throw new NotImplementedException();
+    }
+    /**
+     * Deletes a resource based on a param
+     *
+     * @param mixed $param
+     *
+     * @throws miguel\BacalhauBundle\Api\Exception\NotImplementedException
+     */
+    public function destroy($param)
+    {
+        throw new NotImplementedException();
+    }
 
     /**
      * GET method
@@ -25,7 +80,11 @@ class Service
      */
     public function get($param, array $data)
     {
-        throw new NotImplementedException('get');
+        if ($param) {
+            return $this->listOne($param);
+        } else {
+            return $this->listAll();
+        }
     }
     /**
      * PUT method
@@ -35,7 +94,7 @@ class Service
      */
     public function put($param, array $data)
     {
-        throw new NotImplementedException('put');
+        return $this->update($param, $data);
     }
     /**
      * POST method
@@ -45,7 +104,7 @@ class Service
      */
     public function post($param, array $data)
     {
-        throw new NotImplementedException('post');
+        return $this->create($data);
     }
     /**
      * DELETE method
@@ -55,37 +114,17 @@ class Service
      */
     public function delete($param, array $data)
     {
-        throw new NotImplementedException('delete');
+        return $this->destroy($param);
     }
+
     /**
-     * HEAD method
+     * Prevents other method from being called
      *
-     * @param mixed $param
-     * @param array $data
+     * @throws miguel\BacalhauBundle\Api\Exception\NotImplementedException
      */
-    public function head($param, array $data)
+    public function __call($name, $arguments)
     {
-        throw new NotImplementedException('head');
-    }
-    /**
-     * CONNECT method
-     *
-     * @param mixed $param
-     * @param array $data
-     */
-    public function connect($param, array $data)
-    {
-        throw new NotImplementedException('connect');
-    }
-    /**
-     * TRACE method
-     *
-     * @param mixed $param
-     * @param array $data
-     */
-    public function trace($param, array $data)
-    {
-        throw new NotImplementedException('trace');
+        throw new NotImplementedException();
     }
 
     /**

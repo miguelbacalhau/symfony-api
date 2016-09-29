@@ -28,7 +28,7 @@ class User extends Service
      *
      * @return miguel\BacalhauBundle\Api\ServiceResponse
      */
-    public function put($param, array $data)
+    public function create(array $data)
     {
         //@TODO take care of null data
         //@TODO iterate data array
@@ -46,24 +46,44 @@ class User extends Service
     }
 
     /**
-     * Get all users or one user with id
+     * Get user with id
      *
      * @param mixed $param user id
-     * @param array $data
      *
      * @throws miguel\BacalhauBundle\Api\Exception\NotFoundException;
      *
      * @return miguel\BacalhauBundle\Api\ServiceResponse
      */
-    public function get($param, array $data)
+    public function listOne($param)
     {
         $repository = $this->getEntityManager()->getRepository('miguelBacalhauBundle:User');
 
-        if ($param) {
-            $users = $repository->findById($param);
-        } else {
-            $users = $repository->findAll();
+        $users = $repository->findById($param);
+
+        $userArray = [];
+        foreach ($users as $user) {
+            $userArray[] = $user->toArray();
         }
+
+        if (empty($userArray)) {
+            throw new NotFoundException('user not found');
+        }
+
+        return new ServiceResponse($userArray, JsonResponse::HTTP_OK);
+    }
+
+    /**
+     * Get all users
+     *
+     * @throws miguel\BacalhauBundle\Api\Exception\NotFoundException;
+     *
+     * @return miguel\BacalhauBundle\Api\ServiceResponse
+     */
+    public function listAll()
+    {
+        $repository = $this->getEntityManager()->getRepository('miguelBacalhauBundle:User');
+
+        $users = $repository->findAll();
 
         $userArray = [];
         foreach ($users as $user) {
