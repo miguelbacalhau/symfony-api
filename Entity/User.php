@@ -68,7 +68,8 @@ class User
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'email' => $this->email
+            'email' => $this->email,
+            'voted' => $this->voted
         ];
     }
 
