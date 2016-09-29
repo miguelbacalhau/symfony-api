@@ -13,7 +13,7 @@ use miguel\BacalhauBundle\Api\Exception;
 class NotFoundException extends Exception
 {
     //@TODO make better good stuff
-    public function __construct($message)
+    public function __construct($message = '')
     {
         parent::__construct($message, JsonResponse::HTTP_NOT_FOUND);
     }

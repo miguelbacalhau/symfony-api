@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use miguel\BacalhauBundle\Api\Exception as ApiException;
+use miguel\BacalhauBundle\Api\Exception\NotFoundException;
 
 /**
  * Api Controller class
@@ -32,7 +33,9 @@ class ApiController extends Controller
         $method = strtolower($request->getMethod());
 
         try {
-            // @TODO verify method exist before calling
+            if (!$this->has("miguel_bacalhau.$service")) {
+                throw new NotFoundException();
+            }
             $apiServiceResponse = $this->get("miguel_bacalhau.$service")->$method($param, $data);
             $data = $apiServiceResponse->getData();
             $status = $apiServiceResponse->getStatus();
